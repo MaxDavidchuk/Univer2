@@ -1,0 +1,55 @@
+<nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="/">Univer</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/">Main</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/about">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/faculties">Faculties</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/news">News</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/home/contact">Contacts</a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                <li class="nav-item">
+                    <a class="nav-link active mx-3" aria-current="page" href="/">
+                        Hi,
+                        {% if user.is_authenticated %}
+                            <span>{{ user.username }}</span>
+                        {% else %}
+                            <span>Guest</span>
+                        {% endif %}
+                    </a>
+                </li>
+
+            {% if not user.is_authenticated %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Log in</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Reg</a>
+                </li>
+            {% else %}
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Exit</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Profile</a>
+                </li>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</nav>
