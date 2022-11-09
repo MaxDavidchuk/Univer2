@@ -1,0 +1,41 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Sign on{% endblock title %}
+{% block caption %}Sign on page{% endblock caption %}
+
+{% block content %}
+{% load static %}
+    <div class="container">
+        <h3>Sign on page content</h3>
+        <form id="reg-form" method="post" action="action/reg" onsubmit="return true">
+            {% csrf_token %}
+            <div class="form-group">
+                Login: <br/>
+                <input type="text" id="login" name="login" required/>
+                <img id="login-ico" src="{% static 'img/question.png' %}" class="icon">
+                <div class="error" id="login-err"></div>
+            </div>
+            <div class="form-group">
+                Password: <br/>
+                <input type="password" id="pass1" name="pass1" required/>
+                <img id="pass1-ico" src="{% static 'img/question.png' %}" class="icon">
+                <div class="error" id="pass1-err"></div>
+            </div>
+            <div class="form-group">
+                Repeat password: <br/>
+                <input type="password" id="pass2" name="pass2" required/>
+                <img id="pass2-ico" src="{% static 'img/question.png' %}" class="icon">
+                <div class="error" id="pass2-err"></div>
+            </div>
+            <div class="form-group">
+                E-Mail: <br/>
+                <input type="email" id="email" name="email" required/>
+                <img id="email-ico" src="{% static 'img/question.png' %}" class="icon">
+                <div class="error" id="email-err"></div>
+            </div>
+            <p>
+                <input id="submit" type="submit" value="Send" class="btn btn-success btn-sm b1"/>
+                <input id="reset" type="reset" value="Clear" class="btn btn-danger btn-sm b1"/>
+            </p>
+        </form>
+    </div>    
+{% endblock content %}
