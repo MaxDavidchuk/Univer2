@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
+from django.core.mail import send_mail
 from hashlib import md5
 
 
@@ -20,12 +21,37 @@ def reg(request):
         if new_user is None:
             report['msg'] ='У реєстрації відмовлено!'
         else:
-            report['msg'] ='Ви успішно зареєстровані!'
-        # 3. Завантажуємо звіт на сторінку результатів
+            # 3. Готуємо поштове повідомлення для підтвердження реєстрації
+            url = f'http://127.0.0.1:8000/account/confirm?email={email}'
+            subject = 'Підтвердження реєстрації на сайті Univer'
+            body = f"""
+                <hr/>
+                <h3>Для підтвердження реєстрації перейдіть за посиланням:</h3>
+                <div>
+                    <a href="{url}">{url}</a>
+                </div>
+                <hr/>
+            """
+            # 4. Відправляємо повідомлення
+            success = send_mail(subject, '', 'Site Univer', [email], fail_silently=False, html_message=body)
+            if not success:
+                report['info'] = 'Ваша пошта недійсна!'
+            else:
+                report['msg'] ='Ви успішно зареєстровані!'
+                report['info'] = f'На вказаний Вами при реєстрації Email: {email}<br>відправлено повідомлення для її підтвердження'
+
+        # !. Завантажуємо звіт на сторінку результатів
         return render(request, 'account/reg_res.html', context=report)
 
 
 def confirm(request):
+    email = request.GET.get('email')
+    # Знаходимо користуваяв із даним email
+    user = User.objects.filter(email=email)
+    # Додаємо користувача користувача до групи ConfirmedUser
+    group = User.groups.filter(name='ConfirmedUser')
+    User.groups.add(group)
+
     return render(request, 'account/confirm.html', {})
 
 
