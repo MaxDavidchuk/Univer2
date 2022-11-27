@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail
-from hashlib import md5
 
 
 def reg(request):
@@ -16,8 +15,7 @@ def reg(request):
         email = request.POST.get('email')
         # 2. Сценарій реєстрації
         report = dict()
-        passw = md5(pass1.encode('utf-8')).hexdigest()
-        new_user = User.objects.create_user(username=login, email=email, password=passw)
+        new_user = User.objects.create_user(login, email, pass1)
         if new_user is None:
             report['msg'] ='У реєстрації відмовлено!'
         else:
@@ -33,12 +31,12 @@ def reg(request):
                 <hr/>
             """
             # 4. Відправляємо повідомлення
-            success = send_mail(subject, '', 'Site Univer', [email,], fail_silently=False, html_message=body)
+            success = send_mail(subject, '', 'Site Univer', [email], fail_silently=False, html_message=body)
             if not success:
                 report['info'] = 'Ваша пошта недійсна!'
             else:
                 report['msg'] ='Ви успішно зареєстровані!'
-                report['info'] = f'На вказаний Вами при реєстрації Email: {email}\nвідправлено повідомлення для її підтвердження'
+                report['info'] = f'На вказаний Вами при реєстрації Email: {email}<br>відправлено повідомлення для її підтвердження'
 
         # !. Завантажуємо звіт на сторінку результатів
         return render(request, 'account/reg_res.html', context=report)
@@ -59,11 +57,28 @@ def confirm(request):
 
 
 def entry(request):
-    return render(request, 'account/entry.html', {})
+    if request.method == "GET":
+        return render(request, 'account/entry.html', {})
+    elif request.method == 'POST':
+        # 1. Отримати із форми данні авторизації
+        _login = request.POST.get('login')
+        _pass1 = request.POST.get('pass1')
+
+        # 2. Сценарій авторизації
+        report = dict()
+        check_user = authenticate(request, username=_login, password=_pass1)
+        if check_user is None:
+            report['msg'] ='Користувач на знайдений!'
+        else:
+            report['msg'] ='Ви успішно авторизовані!'
+            login(request, check_user)
+        # !. Завантажуємо звіт на сторінку результатів
+        return render(request, 'account/entry_res.html', context=report)
 
 
 def exit(request):
-    return render(request, 'account/exit.html', {})
+    logout(request)
+    return redirect('/home')
 
 
 def profile(request):

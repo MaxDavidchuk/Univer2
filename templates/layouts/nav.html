@@ -7,19 +7,19 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
                 <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/">Main</a>
+                    <a class="nav-link active" aria-current="page" href="/">Головна</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/home/about">About</a>
+                    <a class="nav-link" href="/home/about">Про нас</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/faculties">Faculties</a>
+                    <a class="nav-link" href="/faculties">Факультети</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/news">News</a>
+                    <a class="nav-link" href="/news">Новини</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/home/contact">Contacts</a>
+                    <a class="nav-link" href="/home/contact">Контакти</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto mb-2 mb-md-0">
@@ -35,17 +35,17 @@
                 </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/entry">Log in</a>
+                    <a class="nav-link" href="/account/entry">Вхід</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/reg">Reg</a>
+                    <a class="nav-link" href="/account/reg">Реєстрація</a>
                 </li>
                 {% else %}
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/exit">Exit</a>
+                    <a class="nav-link" href="/account/exit">Вихід</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/account/Profile"</a>
+                    <a class="nav-link" href="/account/Profile">Профайл</a>
                 </li>
                 {% endif %}
             </ul>

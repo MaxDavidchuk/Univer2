@@ -1,9 +1,17 @@
 {% extends 'layouts/base.html' %}
-{% block title %}Faculties{% endblock title %}
-{% block caption %}Faculties page{% endblock caption %}
+{% block title %}Факультети{% endblock title %}
+{% block caption %}Сторінка факультетів{% endblock caption %}
 
 {% block content %}
     <div class="container">
-        <h3>Faculties page content</h3>
+        <h3>Управління факультетами</h3>
+        {% if user.username == 'dp_maxim' %}
+        <div class="btn-group">
+            <a class="btn btn-secondary" href="/faculties/create">Додати</a>
+            <a class="btn btn-secondary" href="/faculties/details">Переглянути</a>
+            <a class="btn btn-secondary" href="/faculties/edit">Змінити</a>
+            <a class="btn btn-secondary" href="/faculties/delete">Видалити</a>
+        </div>
+        {% endif %}
     </div>
 {% endblock content %}
