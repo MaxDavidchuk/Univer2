@@ -43,14 +43,17 @@ def reg(request):
 
 
 def confirm(request):
+    # Зчитуємо пошту від якого прийшло підтвердження
     email = request.GET.get('email')
+
     # Знаходимо користуваяв із даним email
     user = User.objects.filter(email=email)
+
     # Додаємо користувача користувача до групи ConfirmedUser
     group = User.groups.filter(name='ConfirmedUser')
     User.groups.add(group)
 
-    return render(request, 'account/confirm.html', {})
+    return render(request, 'account/confirm.html')
 
 
 def entry(request):
