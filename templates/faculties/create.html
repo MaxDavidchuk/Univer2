@@ -1,0 +1,20 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Додавання факультету{% endblock title %}
+{% block caption %}{% endblock caption %}
+
+{% block content %}
+    <div class="container">
+        <h3>Додавання факультету</h3>
+    </div>
+    <form method="POST">
+        {% csrf_token %}
+        <table id="faculty">
+            {{ faculty_form }}
+        </table>
+        <input type="submit" value="Send" class="btn btn-sm btn-success" />
+        <input type="rest" value="Clear" class="btn btn-sm btn-secondary" />
+    </form>
+    <style>
+        #faculty input { width: 100%; }
+    </style>    
+{% endblock content %}

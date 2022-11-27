@@ -1,8 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import login, logout, authenticate
 from django.core.mail import send_mail
-from hashlib import md5
 
 
 def reg(request):
@@ -16,8 +15,7 @@ def reg(request):
         email = request.POST.get('email')
         # 2. Сценарій реєстрації
         report = dict()
-        passw = md5(pass1.encode('utf-8')).hexdigest()
-        new_user = User.objects.create_user(login, email, passw)
+        new_user = User.objects.create_user(login, email, pass1)
         if new_user is None:
             report['msg'] ='У реєстрації відмовлено!'
         else:
@@ -56,11 +54,28 @@ def confirm(request):
 
 
 def entry(request):
-    return render(request, 'account/entry.html', {})
+    if request.method == "GET":
+        return render(request, 'account/entry.html', {})
+    elif request.method == 'POST':
+        # 1. Отримати із форми данні авторизації
+        _login = request.POST.get('login')
+        _pass1 = request.POST.get('pass1')
+
+        # 2. Сценарій авторизації
+        report = dict()
+        check_user = authenticate(request, username=_login, password=_pass1)
+        if check_user is None:
+            report['msg'] ='Користувач на знайдений!'
+        else:
+            report['msg'] ='Ви успішно авторизовані!'
+            login(request, check_user)
+        # !. Завантажуємо звіт на сторінку результатів
+        return render(request, 'account/entry_res.html', context=report)
 
 
 def exit(request):
-    return render(request, 'account/exit.html', {})
+    logout(request)
+    return redirect('/home')
 
 
 def profile(request):
